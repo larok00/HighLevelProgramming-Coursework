@@ -2,4 +2,4 @@
 
 open Q12
 
-List.map printMultiList multiList
+List.map printMultiList (multiList twoTuples)

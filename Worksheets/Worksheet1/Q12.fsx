@@ -9,6 +9,6 @@ open Q7
 
 let intList = [1..5]
 let twoTuples = pairList intList
-let multiList = List.map (fun p -> p, makeTriple p) twoTuples
+let multiList x = List.map (fun p -> p, makeTriple p) x
 
 let printMultiList x = printfn "%A" x
