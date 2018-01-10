@@ -9,4 +9,9 @@
     <Compile Include="Program.fs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Q1.fsx" />
+    <None Include="testQ1.fsx" />
+  </ItemGroup>
+
 </Project>
