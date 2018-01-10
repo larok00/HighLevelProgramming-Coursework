@@ -10,4 +10,4 @@ let pairList lst = List.collect (makePairs1 lst) lst
 open Q1
 
 let intList = [1..5]
-let tripleList = List.map makeTriple (pairList intList)
+let tripleList1 = List.map makeTriple (pairList intList)

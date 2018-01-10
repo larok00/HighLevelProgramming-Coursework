@@ -2,4 +2,4 @@
 
 open Q11
 
-tripleList
+tripleList1
