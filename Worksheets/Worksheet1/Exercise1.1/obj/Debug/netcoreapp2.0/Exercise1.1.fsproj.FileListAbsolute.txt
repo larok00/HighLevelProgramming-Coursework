@@ -1,8 +1,0 @@
-C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\F#\HighLevelProgramming-Coursework\Worksheets\Worksheet1\Exercise1.1\obj\Debug\netcoreapp2.0\Exercise1.1.fsprojResolveAssemblyReference.cache
-C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\F#\HighLevelProgramming-Coursework\Worksheets\Worksheet1\Exercise1.1\bin\Debug\netcoreapp2.0\Exercise1.1.deps.json
-C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\F#\HighLevelProgramming-Coursework\Worksheets\Worksheet1\Exercise1.1\bin\Debug\netcoreapp2.0\Exercise1.1.runtimeconfig.json
-C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\F#\HighLevelProgramming-Coursework\Worksheets\Worksheet1\Exercise1.1\bin\Debug\netcoreapp2.0\Exercise1.1.runtimeconfig.dev.json
-C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\F#\HighLevelProgramming-Coursework\Worksheets\Worksheet1\Exercise1.1\bin\Debug\netcoreapp2.0\Exercise1.1.dll
-C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\F#\HighLevelProgramming-Coursework\Worksheets\Worksheet1\Exercise1.1\bin\Debug\netcoreapp2.0\Exercise1.1.pdb
-C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\F#\HighLevelProgramming-Coursework\Worksheets\Worksheet1\Exercise1.1\obj\Debug\netcoreapp2.0\Exercise1.1.dll
-C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\F#\HighLevelProgramming-Coursework\Worksheets\Worksheet1\Exercise1.1\obj\Debug\netcoreapp2.0\Exercise1.1.pdb

@@ -1,4 +1,6 @@
-﻿let pairs = [ (1,2) ; (1,3) ; (2,3); (3,4) ; (4,7) ] //list of 2-tuples for input
+﻿module Q1
+
+let pairs = [ (1,2) ; (1,3) ; (2,3); (3,4) ; (4,7) ] //list of 2-tuples for input
 let makeTriple (a,b) = //generates Pythagorean triples using Euclid's formula
     let square x = x*x 
     let firstNumber = square ((square a) - (square b))

@@ -1,4 +1,4 @@
-﻿#load "Q1.fsx"
+﻿#load "Q1.fs"
 
 // test code
 open Q1
