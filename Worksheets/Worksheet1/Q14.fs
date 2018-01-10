@@ -7,6 +7,7 @@ let tripleList = List.map makeTriple pairList
 printfn "Triples are:%A" tripleList
 *)
 
+module Q14
 
 let sq x = x*x
 
