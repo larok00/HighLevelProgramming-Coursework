@@ -1,10 +1,10 @@
 module Q17
 
-let stats1 x = 
-    let theAverage = List.average x
+let stats1 lst = 
+    let theAverage = List.average lst
 
-    let n = float (List.length x)
-    let variationTimesN = List.sumBy (fun i -> (i - theAverage)**2.0 ) x
+    let n = float (List.length lst)
+    let variationTimesN = List.sumBy (fun i -> (i - theAverage)**2.0 ) lst
     let theVariance = variationTimesN / n
 
-    (theAverage, theVariance, x)
+    (theAverage, theVariance, lst)
