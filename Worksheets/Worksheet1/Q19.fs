@@ -6,4 +6,4 @@ let insertElement lst x n =
 
 let insertList lstOfLst xLst n = 
     let (a, b) = List.splitAt n lstOfLst
-    List.collect (id) [a; [xLst]; b]
+    List.collect (id) [a; xLst; b]
