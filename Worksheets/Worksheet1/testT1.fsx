@@ -2,4 +2,4 @@
 
 open T1
 
-fRes 2 500000
+fRes 3 100000

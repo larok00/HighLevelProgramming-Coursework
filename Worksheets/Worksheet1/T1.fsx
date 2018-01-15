@@ -18,7 +18,6 @@ let fRes n rMin =
     let filterAscending newCombos = 
         List.filter (fun newCombo -> ((List.reduce (fun a b -> if a<=b then b else 700000) newCombo)<690000)) newCombos
     let reducer listOfListsOfCombos _ = 
-            //List.map (fun listOfCombo -> List.filter (fun newCombo -> ((List.reduce (fun a b -> if a<b then b else 690000) newCombo)<700000)) listOfCombo @ listOfNextElement) listOflistsOfCombos
         filterAscending (List.collect (fun listOfCombo -> List.map (fun [listOfNextElement] -> listOfCombo @ listOfNextElement) biggerThanMin) listOfListsOfCombos)
     
     List.reduce reducer rLst
