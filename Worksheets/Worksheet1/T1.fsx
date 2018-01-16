@@ -20,14 +20,23 @@ let fRes (n, rMin) =
     let iterator = List.replicate (n+1) [[]]
 
 
-    let ascensionHoldsTrueForPositiveNumberList lst = 
-        List.reduce (fun a b -> if a <= b then (if a = -1 then a else b) else -1) lst <> -1
-    let filteredThroughIfAscending lst = 
-        if (ascensionHoldsTrueForPositiveNumberList lst) then [lst] else []
-    let newListOfAscendingComboFrom currListOfCombo = 
-        List.collect (fun [listOfNextElement] -> filteredThroughIfAscending (currListOfCombo @ listOfNextElement)) biggerThanMin
     let reducer listOfListsOfCombos _ = 
+        let newListOfAscendingComboFrom currListOfCombo = 
+
+            let concatenatedIfConcatenationAscends ascendingList2 = 
+
+                let concatenationAscends = 
+                    if List.isEmpty currListOfCombo then 0<1 else 
+                        if List.isEmpty ascendingList2 then 1<0 else 
+                            currListOfCombo.[((List.length currListOfCombo)-1)] <= ascendingList2.[0]
+                
+                if (concatenationAscends) then [currListOfCombo @ ascendingList2] else []
+
+            List.collect (fun [listOfNextElement] -> concatenatedIfConcatenationAscends (listOfNextElement)) biggerThanMin
+
         List.collect newListOfAscendingComboFrom listOfListsOfCombos
+    
+
     
     List.reduce reducer iterator
     

@@ -41,8 +41,8 @@ let testT1 x =
                    [330000; 470000; 680000]; [330000; 680000; 680000];
                    [470000; 470000; 470000]; [470000; 470000; 680000];
                    [470000; 680000; 680000]; [680000; 680000; 680000]]
-    let zz = fRes inp
+    let zz = x inp
     if zz = result then printfn "Test Passed" else 
         printfn "Test Failed:\nInput = %A\nCorrect output=%A\nActual output=%A" inp result zz
 testT1 fRes
-System.Console.ReadLine() // prevent the program from terminating
+//System.Console.ReadLine() // prevent the program from terminating
