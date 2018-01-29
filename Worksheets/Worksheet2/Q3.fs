@@ -1,0 +1,1 @@
+let func a b = a (b+2)

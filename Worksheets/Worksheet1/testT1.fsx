@@ -1,4 +1,4 @@
-#load "T1.fsx"
+#load "tick1.fsx"
 
 open T1
 
