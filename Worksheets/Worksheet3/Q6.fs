@@ -1,0 +1,1 @@
+printfn "%A %A" (fst (0,1)) (snd (0,1))
