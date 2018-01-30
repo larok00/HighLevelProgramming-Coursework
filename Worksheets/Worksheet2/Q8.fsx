@@ -11,6 +11,6 @@ let snd (a,b) = b
 /// The first application of (cSucc' f) should be on a tuple (false, x0)
 /// The second and onwards applications of (cSucc' f) will have b = true
 /// Applying (cSucc f) n times has the effect of applying f (n-1) times to x0.
-let cSucc' f (b,x) = if b then (b, f x) else (true, x)
+let cPred' f (b,x) = if b then (b, f x) else (true, x)
 
-let cPred cN f x = snd (cN (cSucc' f) (false,x))
+let cPred cN f x = snd (cN (cPred' f) (false,x))

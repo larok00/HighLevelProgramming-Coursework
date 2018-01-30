@@ -4,4 +4,4 @@ module Q9
 
 open Q8
 
-let cSubtract cM cN f x = (cM cPred) (cN f x)
+let cSubtract cM cN f x = cM (cPred) (cN f x)

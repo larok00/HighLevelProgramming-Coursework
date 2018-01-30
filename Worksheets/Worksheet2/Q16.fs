@@ -1,0 +1,1 @@
+let tmp = fun f g x -> (f x) (g x)
