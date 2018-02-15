@@ -1,7 +1,3 @@
-#load "tick2header.fsx"
-//>> Skeleton code for your bound and bAndB functions.
-module Tick2
-
 let bound (p: Partial) = 
     let doneInK = List.collect (function | (item,true) -> [item] | _ -> []) p.Done
     let maxW lst = List.sumBy (fun item -> item.Weight) lst
