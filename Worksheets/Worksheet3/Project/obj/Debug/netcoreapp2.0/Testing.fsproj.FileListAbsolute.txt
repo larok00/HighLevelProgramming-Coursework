@@ -5,3 +5,10 @@ C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Course
 C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\Testing\bin\Debug\netcoreapp2.0\Testing.pdb
 C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\Testing\obj\Debug\netcoreapp2.0\Testing.dll
 C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\Testing\obj\Debug\netcoreapp2.0\Testing.pdb
+c:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\Project\bin\Debug\netcoreapp2.0\Testing.deps.json
+c:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\Project\bin\Debug\netcoreapp2.0\Testing.runtimeconfig.json
+c:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\Project\bin\Debug\netcoreapp2.0\Testing.runtimeconfig.dev.json
+c:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\Project\bin\Debug\netcoreapp2.0\Testing.dll
+c:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\Project\bin\Debug\netcoreapp2.0\Testing.pdb
+c:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\Project\obj\Debug\netcoreapp2.0\Testing.dll
+c:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\Project\obj\Debug\netcoreapp2.0\Testing.pdb
