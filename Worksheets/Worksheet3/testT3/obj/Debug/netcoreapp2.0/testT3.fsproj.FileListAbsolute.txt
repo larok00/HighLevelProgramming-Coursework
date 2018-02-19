@@ -1,0 +1,7 @@
+c:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\testT3\bin\Debug\netcoreapp2.0\testT3.deps.json
+c:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\testT3\bin\Debug\netcoreapp2.0\testT3.runtimeconfig.json
+c:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\testT3\bin\Debug\netcoreapp2.0\testT3.runtimeconfig.dev.json
+C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\testT3\bin\Debug\netcoreapp2.0\testT3.dll
+C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\testT3\bin\Debug\netcoreapp2.0\testT3.pdb
+C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\testT3\obj\Debug\netcoreapp2.0\testT3.dll
+C:\Users\koral\OneDrive\Belgeler\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet3\testT3\obj\Debug\netcoreapp2.0\testT3.pdb

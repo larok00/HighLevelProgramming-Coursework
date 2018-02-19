@@ -86,8 +86,11 @@ let main argv =
     //printfn "Testing with FSCheck and Expecto!"
     //testsWithoutExpecto() |> ignore
     //testsWithExpecto() |> ignore
-    //allTestsWithExpecto() |> ignore
+    //allTestsWithExpecto() |> ignore    
 
+    //Q34
+    //The () and x.ToString form separate values which are presented as 2nd and 3rd arguments of printfn. 
+    //What is needed is for them to be grouped together.
     let x = [1;2;3]
     printfn "%s" (x.ToString())
     Console.ReadKey() |> ignore
