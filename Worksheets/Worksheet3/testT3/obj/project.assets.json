@@ -5826,32 +5826,27 @@
   },
   "packageFolders": {
     "C:\\Users\\koral\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\koral\\OneDrive\\Belgeler\\GitHub\\Tyl-e\\FSharp\\HighLevelProgramming-Coursework\\Worksheets\\Worksheet3\\testT3\\testT3.fsproj",
+      "projectUniqueName": "c:\\Users\\koral\\Documents\\GitHub\\Tyl-e\\FSharp\\HighLevelProgramming-Coursework\\Worksheets\\Worksheet3\\testT3\\testT3.fsproj",
       "projectName": "testT3",
-      "projectPath": "C:\\Users\\koral\\OneDrive\\Belgeler\\GitHub\\Tyl-e\\FSharp\\HighLevelProgramming-Coursework\\Worksheets\\Worksheet3\\testT3\\testT3.fsproj",
+      "projectPath": "c:\\Users\\koral\\Documents\\GitHub\\Tyl-e\\FSharp\\HighLevelProgramming-Coursework\\Worksheets\\Worksheet3\\testT3\\testT3.fsproj",
       "packagesPath": "C:\\Users\\koral\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\koral\\OneDrive\\Belgeler\\GitHub\\Tyl-e\\FSharp\\HighLevelProgramming-Coursework\\Worksheets\\Worksheet3\\testT3\\obj\\",
+      "outputPath": "C:\\Users\\koral\\Documents\\GitHub\\Tyl-e\\FSharp\\HighLevelProgramming-Coursework\\Worksheets\\Worksheet3\\testT3\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\koral\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
+        "C:\\Users\\koral\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
