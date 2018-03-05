@@ -1,0 +1,7 @@
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet4\testT4\bin\Debug\netcoreapp2.0\testT4.deps.json
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet4\testT4\bin\Debug\netcoreapp2.0\testT4.runtimeconfig.json
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet4\testT4\bin\Debug\netcoreapp2.0\testT4.runtimeconfig.dev.json
+C:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet4\testT4\bin\Debug\netcoreapp2.0\testT4.dll
+C:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet4\testT4\bin\Debug\netcoreapp2.0\testT4.pdb
+C:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet4\testT4\obj\Debug\netcoreapp2.0\testT4.dll
+C:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Worksheets\Worksheet4\testT4\obj\Debug\netcoreapp2.0\testT4.pdb
