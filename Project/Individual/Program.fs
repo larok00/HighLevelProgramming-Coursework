@@ -5,6 +5,7 @@
 open CommonDataAndLex.CommonData
 open CommonDataAndLex.CommonLex
 open EEExtensions
+open System
 
 module Memory = 
     open EEExtensions
@@ -22,7 +23,7 @@ module Memory =
         Mode: string;
         Cond: Condition;
         StackPointer: RName*UpdatePointer;
-        OpRegs: string //RName list
+        OpRegs: RName list //RName list
     }
 
     /// parse error (dummy, but will do)
@@ -43,25 +44,49 @@ module Memory =
     /// the result is None if the opcode does not match
     /// otherwise it is Ok Parse or Error (parse error string)
     let parse (ls: LineData) : Result<Parse<Instr>,string> option =
-        let parse' (instrC, (root,suffix,pCond)) =
-            // this does the real work of parsing
-            // dummy return for now
-            let firstComma = String.indexOf "," ls.Operands
+        // this does the real work of parsing
+        let opCodeValid (instrC, (root,suffix,pCond)) = 
+            let operands = ls.Operands
+            
+            let firstComma = String.indexOf "," operands
             match firstComma with
                 | Some i -> 
-                    let regString, updatePointer = if String.endsWith "!" ls.Operands.[0..i-1] then ls.Operands.[0..i-2],true else ls.Operands.[0..i-1],false
-                    let pointer = Map.tryFind regString regNames
-                    match pointer with 
+                    let  stackPtrExists = 
+                        let regString, updatePointer = if String.endsWith "!" operands.[0..i-1] then operands.[0..i-2],true else operands.[0..i-1],false
+                        let pointer = Map.tryFind regString regNames
+                        match pointer with 
                         | Some ptr -> 
-                            let opRegs = ls.Operands.[i..]
-                            Ok { PInstr={Root=root; Mode=suffix; Cond=pCond; StackPointer=ptr,updatePointer; OpRegs=opRegs}; PLabel = None ; PSize = 4u; PCond = pCond }
+                            Ok (ptr,updatePointer)
                         | None -> Error "Invalid stack pointer."
-                    //let opRegs = ls.Operands.[i..] |> Array.ofSeq |> 
+                    
+                    let operandListExists = 
+                        if (String.startsWith "{" operands.[i+1..]) && (String.endsWith "}" operands.[i+1..]) 
+                        then 
+                            
+                            let folderFn lst reg = 
+                                let rName = Map.tryFind reg regNames
+                                match lst, rName with
+                                | Error first, _ -> Error first
+                                | _, None -> Error "Invalid operand in register list."
+                                | Ok lst, Some rName -> Ok (rName::lst) //register list is reversed in order
+
+                            if String.IsNullOrEmpty operands.[i+2..(String.length operands)-2] 
+                            then Error "Empty register list."
+                            else 
+                                let opStringList = String.splitString [|","|] operands.[i+2..(String.length operands)-2]
+                                match (Array.fold folderFn (Ok []) opStringList) with 
+                                    | Ok lst -> Ok (List.rev lst)
+                                    | Error str -> Error str
+                        else Error "Invalid register list, not surrounded by curly brackets."
+                    
+                    match stackPtrExists, operandListExists with
+                    | Error first, _ -> Error first
+                    | _, Error second -> Error second
+                    | Ok stackPtr, Ok regList -> Ok { PInstr={Root=root; Mode=suffix; Cond=pCond; StackPointer=stackPtr; OpRegs=regList}; PLabel = None ; PSize = 4u; PCond = pCond }
                 | None -> Error "No comma in operands string."
-                
-            //Ok { Root=root; Mode=suffix; Cond=pCond; }
+        
         Map.tryFind ls.OpCode opCodes
-        |> Option.map parse'
+        |> Option.map opCodeValid
 
 
 
@@ -147,7 +172,7 @@ open Tests
 
 [<EntryPoint>]
 let main argv = 
-    printf "%A" (CommonTop.parseLine None (WA 0u) "LDM R 1 !, {R0 R0}")
+    printf "%A" (CommonTop.parseLine None (WA 0u) "LDM R 1 !, {R0, R0}")
     //Check.Quick XXX
     //tests() |> ignore
     allTests() |> ignore
