@@ -1,0 +1,9 @@
+C:\src17\VisualTesting\VisualTest\obj\Debug\netcoreapp2.0\VisualTest.fsprojResolveAssemblyReference.cache
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\VisualTesting\VisualTest\bin\Debug\netcoreapp2.0\VisualTest.deps.json
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\VisualTesting\VisualTest\bin\Debug\netcoreapp2.0\VisualTest.runtimeconfig.json
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\VisualTesting\VisualTest\bin\Debug\netcoreapp2.0\VisualTest.runtimeconfig.dev.json
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\VisualTesting\VisualTest\bin\Debug\netcoreapp2.0\VisualTest.dll
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\VisualTesting\VisualTest\bin\Debug\netcoreapp2.0\VisualTest.pdb
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\VisualTesting\VisualTest\obj\Debug\netcoreapp2.0\VisualTest.fsprojResolveAssemblyReference.cache
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\VisualTesting\VisualTest\obj\Debug\netcoreapp2.0\VisualTest.dll
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\VisualTesting\VisualTest\obj\Debug\netcoreapp2.0\VisualTest.pdb

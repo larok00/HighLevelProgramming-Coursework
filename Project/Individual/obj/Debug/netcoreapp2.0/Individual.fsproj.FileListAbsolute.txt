@@ -1,0 +1,7 @@
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\Individual\bin\Debug\netcoreapp2.0\Individual.deps.json
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\Individual\bin\Debug\netcoreapp2.0\Individual.runtimeconfig.json
+c:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\Individual\bin\Debug\netcoreapp2.0\Individual.runtimeconfig.dev.json
+C:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\Individual\bin\Debug\netcoreapp2.0\Individual.dll
+C:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\Individual\bin\Debug\netcoreapp2.0\Individual.pdb
+C:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\Individual\obj\Debug\netcoreapp2.0\Individual.dll
+C:\Users\koral\OneDrive - Imperial College London\Documents\GitHub\Tyl-e\FSharp\HighLevelProgramming-Coursework\Project\Individual\obj\Debug\netcoreapp2.0\Individual.pdb

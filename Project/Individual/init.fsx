@@ -7,9 +7,11 @@
     v1.00 initial version
     v1.01 deleted duplicate "" suffix in condmap
 *)
+#load "EEExtensions.fs"
+
+open EEExtensions
 
 #load "CommonData.fs"
-open System.Runtime.InteropServices.ComTypes
 #load "CommonLex.fsx"
 
 open CommonData
@@ -22,11 +24,12 @@ module Memory =
     type Mode = EA | ED | FA | FD
 
     /// instruction (dummy: must change)
-    type Instr =  {Root: Root;
-        Mode: Mode;
+    type Instr =  {
+        Root: string;
+        Mode: string;
         Cond: Condition;
-        //StackPointer: RName; would 
-        OpRegs: RName list
+        StackPointer: RName;
+        //OpRegs: RName list
     }
 
     /// parse error (dummy, but will do)
@@ -50,7 +53,15 @@ module Memory =
         let parse' (instrC, (root,suffix,pCond)) =
             // this does the real work of parsing
             // dummy return for now
-            Ok { Root=root; Mode=suffix; Cond=pCond; }
+            let firstComma = String.indexOf "," ls.Operands
+            match firstComma with
+                | Some i -> 
+                    let pointer = Map.find ls.Operands.[0..i-1] regNames
+                    Ok { PInstr={Root=root; Mode=suffix; Cond=pCond; StackPointer=pointer}; PLabel = None ; PSize = 4u; PCond = pCond }
+                    //let opRegs = ls.Operands.[i..] |> Array.ofSeq |> 
+                | None -> failwithf "No comma in operands string."
+                
+            //Ok { Root=root; Mode=suffix; Cond=pCond; }
         Map.tryFind ls.OpCode opCodes
         |> Option.map parse'
 
@@ -137,7 +148,8 @@ module CommonTop =
 
 open CommonTop
 /// test the initProjectLexer code
-printf "%A" (parseLine None (WA 0u) "ADD R0, R0, R0")
+//printf "%A" 
+let temp = (parseLine None (WA 0u) "LDMIA R0, R0, R0")
 
 
 
