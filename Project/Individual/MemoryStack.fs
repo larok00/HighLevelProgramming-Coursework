@@ -8,7 +8,6 @@ open EEExtensions
 open System
 
 module Memory = 
-    open EEExtensions
 
     // change these types as required
     type Root = LDM | STGMEDIUM
@@ -55,7 +54,7 @@ module Memory =
                         let regString, updatePointer = if String.endsWith "!" operands.[0..i-1] then operands.[0..i-2],true else operands.[0..i-1],false
                         let pointer = Map.tryFind regString regNames
                         match pointer with 
-                        | Some ptr when ptr=R15 -> Error "Base register must not be R15."
+                        //| Some ptr when ptr=R15 -> Error "Base register must not be R15."
                         | Some ptr -> Ok (ptr,updatePointer)
                         | None -> Error (sprintf "Invalid base register %A." regString)
                     
@@ -63,19 +62,33 @@ module Memory =
                         if (String.startsWith "{" operands.[i+1..]) && (String.endsWith "}" operands.[i+1..]) 
                         then 
                             
-                            let makeOpRegsList lst reg = 
-                                let rName = Map.tryFind reg regNames
-                                match lst, rName with
-                                | Error first, _ -> Error first
-                                | _, None -> Error (sprintf "Invalid operand %A in register list." reg)
-                                | Ok lst, Some rName -> Ok (rName::lst) //register list is reversed in order
+                            let makeOpRegsList lst regOrRange = 
+                                let makeOpRegsList' lst reg = 
+                                    let rName = Map.tryFind reg regNames
+                                    match lst, rName with
+                                    | Error first, _ -> Error first
+                                    | _, None -> Error (sprintf "Invalid operand %A in register list." reg)
+                                    | Ok lst, Some rName -> Ok (rName::lst) //register list is reversed in order
+                                
+                                if not (String.contains "-" regOrRange) then makeOpRegsList' lst regOrRange else 
+                                    let range = String.split [|'-'|] regOrRange
+                                    if range.Length<>2 then Error (sprintf "Invalid range %A in register list." regOrRange) else 
+                                        match (Array.fold makeOpRegsList' (Ok []) range) with 
+                                            | Ok ls -> 
+                                                let rangeConfirmedInt = ls |> List.rev |> List.map (fun key -> int (Map.find key regStrings).[1..])
+                                                let rangeConfirmed = [rangeConfirmedInt.[0]..rangeConfirmedInt.[1]] |> List.map (fun i -> (sprintf "R%i" i))
+                                                let result = List.fold makeOpRegsList' lst rangeConfirmed //rangeConfirmed |> List.map (fun r -> makeOpRegsList' lst r)
+                                                result 
+                                            | Error str -> Error str
+                                
+                                //makeOpRegsList' lst regOrRange
 
                             if String.IsNullOrEmpty operands.[i+2..(String.length operands)-2] 
                             then Error "Empty register list."
                             else 
                                 let opStringList = String.splitString [|","|] operands.[i+2..(String.length operands)-2]
                                 match (Array.fold makeOpRegsList (Ok []) opStringList) with 
-                                    | Ok lst -> Ok (List.rev lst)
+                                    | Ok ls -> if List.isEmpty ls then Error "Empty register list." else Ok (List.rev ls)
                                     | Error str -> Error str
                         else Error (sprintf "Invalid register list %A, not surrounded by curly brackets." operands.[i+1..])
                     

@@ -1,1 +1,7 @@
 * Space between R and [<number>] is allowed, only the space between the instruction and operand is non-trivial, it must exist.
+
+* VisUAL crashes if register list contains a range from a higher number register to a lower number register. My emulation just takes it as a list of 0 registers.
+
+*VisUAL seems to emulate the restricted subset of functionality called Thumb State, my program emulates the unrestricted ARM State. (http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0040d/CACCIDAH.html)
+
+*In VisUAL, register names are not case sensitive, in my emulation they are. In my emulation all characters are assumed to be uppercase.

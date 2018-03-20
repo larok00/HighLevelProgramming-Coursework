@@ -6,7 +6,7 @@ open Tests
 
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" (CommonTop.parseLine None (CommonData.WA 0u) "LDM R1!, {R0, R0}")
+    printfn "%A" (CommonTop.parseLine None (CommonData.WA 0u) "LDM R1!, {R3-R5}")
     //let tmp = ([ "LDM"; " <placeholder>"] |> List.toSeq |> (String.concat "") |> (CommonTop.parseLine None (CommonData.WA 0u)))
     //printfn "%A" tmp
     //Check.Quick XXX
