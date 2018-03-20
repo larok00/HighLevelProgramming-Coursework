@@ -20,7 +20,6 @@ module Memory =
     type Instr =  {
         Root: string;
         Mode: string;
-        Cond: Condition;
         StackPointer: RName*UpdatePointer;
         OpRegs: RName list //RName list
     }
@@ -37,6 +36,9 @@ module Memory =
     /// map of all possible opcodes recognised
     let opCodes = opCodeExpand memSpec
 
+    let execute (dPath:DataPath) x y = 
+        1
+
     /// main function to parse a line of assembler
     /// ls contains the line input
     /// and other state needed to generate output
@@ -45,23 +47,31 @@ module Memory =
     let parse (ls: LineData) : Result<Parse<Instr>,string> option =
         // this does the real work of parsing
         let opCodeValid (instrC, (root,suffix,pCond)) = 
+            instrC |> ignore
+
             let operands = ls.Operands
             
             let firstComma = String.indexOf "," operands
             match firstComma with
                 | Some i -> 
-                    let  stackPtrExists = 
-                        let regString, updatePointer = if String.endsWith "!" operands.[0..i-1] then operands.[0..i-2],true else operands.[0..i-1],false
+                    let  stackPtr = 
+                        let regString, updatePointer = 
+                            if String.endsWith "!" operands.[0..i-1] 
+                            then operands.[0..i-2],true 
+                            else operands.[0..i-1],false
+                        
                         let pointer = Map.tryFind regString regNames
+
                         match pointer with 
                         //| Some ptr when ptr=R15 -> Error "Base register must not be R15."
                         | Some ptr -> Ok (ptr,updatePointer)
                         | None -> Error (sprintf "Invalid base register %A." regString)
-                    
-                    let operandListExists = 
-                        if (String.startsWith "{" operands.[i+1..]) && (String.endsWith "}" operands.[i+1..]) 
-                        then 
-                            
+
+
+                    let operandList = 
+                        if not ( (String.startsWith "{" operands.[i+1..]) && (String.endsWith "}" operands.[i+1..]) ) 
+                        then Error (sprintf "Invalid register list %A, not surrounded by curly brackets." operands.[i+1..])
+                        else 
                             let makeOpRegsList lst regOrRange = 
                                 let makeOpRegsList' lst reg = 
                                     let rName = Map.tryFind reg regNames
@@ -70,19 +80,28 @@ module Memory =
                                     | _, None -> Error (sprintf "Invalid operand %A in register list." reg)
                                     | Ok lst, Some rName -> Ok (rName::lst) //register list is reversed in order
                                 
-                                if not (String.contains "-" regOrRange) then makeOpRegsList' lst regOrRange else 
+                                if not (String.contains "-" regOrRange) 
+                                then makeOpRegsList' lst regOrRange 
+                                else 
                                     let range = String.split [|'-'|] regOrRange
-                                    if range.Length<>2 then Error (sprintf "Invalid range %A in register list." regOrRange) else 
+
+                                    if range.Length<>2 
+                                    then Error (sprintf "Invalid range %A in register list." regOrRange) 
+                                    else 
                                         match (Array.fold makeOpRegsList' (Ok []) range) with 
                                             | Ok ls -> 
-                                                let rangeConfirmedInt = ls |> List.rev |> List.map (fun key -> int (Map.find key regStrings).[1..])
-                                                let rangeConfirmed = [rangeConfirmedInt.[0]..rangeConfirmedInt.[1]] |> List.map (fun i -> (sprintf "R%i" i))
-                                                let result = List.fold makeOpRegsList' lst rangeConfirmed //rangeConfirmed |> List.map (fun r -> makeOpRegsList' lst r)
-                                                result 
-                                            | Error str -> Error str
-                                
-                                //makeOpRegsList' lst regOrRange
+                                                //dummy variable so that range can be constructed later
+                                                let rangeConfirmedInt = 
+                                                    ls 
+                                                    |> List.rev 
+                                                    |> List.map (fun key -> int (Map.find key regStrings).[1..])
+                                                //range from a to b with a>b gives empty list, which is desired
+                                                [rangeConfirmedInt.[0]..rangeConfirmedInt.[1]] 
+                                                |> List.map (sprintf "R%i")
+                                                |> List.fold makeOpRegsList' lst 
 
+                                            | Error str -> Error str
+                            
                             if String.IsNullOrEmpty operands.[i+2..(String.length operands)-2] 
                             then Error "Empty register list."
                             else 
@@ -90,12 +109,13 @@ module Memory =
                                 match (Array.fold makeOpRegsList (Ok []) opStringList) with 
                                     | Ok ls -> if List.isEmpty ls then Error "Empty register list." else Ok (List.rev ls)
                                     | Error str -> Error str
-                        else Error (sprintf "Invalid register list %A, not surrounded by curly brackets." operands.[i+1..])
-                    
-                    match stackPtrExists, operandListExists with
-                    | Error first, _ -> Error first
-                    | _, Error second -> Error second
-                    | Ok stackPtr, Ok regList -> Ok { PInstr={Root=root; Mode=suffix; Cond=pCond; StackPointer=stackPtr; OpRegs=regList}; PLabel = None ; PSize = 4u; PCond = pCond }
+
+
+                    match stackPtr, operandList with
+                    | Error ptr, _ -> Error ptr
+                    | _, Error lst -> Error lst
+                    | Ok ptr, Ok opList -> 
+                        Ok { PInstr={Root=root; Mode=suffix; StackPointer=ptr; OpRegs=opList}; PLabel = None ; PSize = 4u; PCond = pCond }
                 | None -> Error (sprintf "No comma in operands string %A." operands)
         
         Map.tryFind ls.OpCode opCodes

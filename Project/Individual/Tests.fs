@@ -3,7 +3,9 @@ module Tests
 open EEExtensions
 open CommonDataAndLex
 open MemoryStack
+
 open Expecto
+open FsCheck
 
 let checkInstr error placeholder1 tester placeholder2 = 
     //testCase str <| fun () ->
@@ -16,6 +18,14 @@ let checkInstr error placeholder1 tester placeholder2 =
     Expect.equal result (Error error) (sprintf "Tester %A failed." tester)
 
 type InstrErr = Err of CommonTop.ErrInstr | ErrWithArg of (string -> string)
+
+
+let generator n = 
+    Arb.generate<string> 
+    |> Gen.sample n 3
+    |> List.filter (isNull >> not)
+    |> List.map (String.filter (fun c -> not (System.Char.IsWhiteSpace c) || Seq.exists ( (=)c ) [' '; '\n'; '\r'; ',']))
+    |> List.collect (String.splitStringRemoveEmptyEntries [|" "|] >> Array.toList)
 
 let randStr (chars: string) intList = 
     let intToStr lst i = 
@@ -83,7 +93,7 @@ let ValidOpCodesExhaustive =
 let noCommaInOperandsProperty = 
     propertyTest 
         "Operands list without a comma should not be valid." 
-        "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789{}-"
         (ErrWithArg (sprintf "No comma in operands string %A." )) 
         "LDM " 
         ""
@@ -92,7 +102,7 @@ let noCommaInOperandsProperty =
 let invalidStackPtrProperty = 
     propertyTest 
         "Invalid opCodes should not be accepted." 
-        "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789{}-"
         (ErrWithArg (sprintf "Invalid base register %A.")) 
         "LDM " 
         ", <placeholder>"
@@ -112,7 +122,7 @@ let ValidStackPtrExhaustive =
 let invalidRegListProperty = 
     propertyTest 
         "Invalid register lists should not be accepted." 
-        "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789-"
         (ErrWithArg (sprintf "Invalid register list %A, not surrounded by curly brackets.")) 
         "LDM R0, " 
         ""
@@ -138,7 +148,7 @@ let emptyRegListUnit =
 let invalidRegListOpProperty = 
     propertyTest 
         "Invalid register list operands should not be accepted." 
-        "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789{}"
         (ErrWithArg (sprintf "Invalid operand %A in register list.")) 
         "LDM R0, {" 
         "}"
@@ -189,6 +199,8 @@ let invalidRegRangeUnit =
             "R0 ---R12-, - -3" 
             "}";
     ]
+
+
 
 
 

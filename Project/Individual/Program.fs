@@ -6,11 +6,13 @@ open Tests
 
 [<EntryPoint>]
 let main argv = 
+    argv |> ignore
     printfn "%A" (CommonTop.parseLine None (CommonData.WA 0u) "LDM R1!, {R3-R5}")
     //let tmp = ([ "LDM"; " <placeholder>"] |> List.toSeq |> (String.concat "") |> (CommonTop.parseLine None (CommonData.WA 0u)))
     //printfn "%A" tmp
     //Check.Quick XXX
     //tests() |> ignore
+    //printf "%A" generator |> ignore
     allTests() |> ignore
     System.Console.ReadKey() |> ignore
     0 // return an integer exit code
