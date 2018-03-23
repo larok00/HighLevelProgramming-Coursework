@@ -127,8 +127,8 @@ module Memory =
                 | Error err -> Error err
                 | Ok (newRegStates,newMemState,newAddr) ->
                     if updatePointer 
-                    then Ok ((Map.add ptr newAddr newRegStates), newMemState) 
-                    else Ok (newRegStates, newMemState)
+                    then Ok ({Fl=machState.Fl; Regs=(Map.add ptr newAddr newRegStates)}, newMemState) 
+                    else Ok ({Fl=machState.Fl; Regs=newRegStates}, newMemState)
 
     /// main function to parse a line of assembler
     /// ls contains the line input
