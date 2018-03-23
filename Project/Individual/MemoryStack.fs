@@ -1,11 +1,10 @@
 module MemoryStack
 
-//open System
+open System
 
 open CommonDataAndLex.CommonData
 open CommonDataAndLex.CommonLex
 open EEExtensions
-open System
 
 module Memory = 
 
@@ -21,7 +20,7 @@ module Memory =
         Root: string;
         Mode: string;
         StackPointer: RName*UpdatePointer;
-        OpRegs: RName list //RName list
+        OpRegs: RName list
     }
 
     /// parse error (dummy, but will do)
@@ -29,22 +28,116 @@ module Memory =
 
     let memSpec = {
         InstrC = MEM
-        Roots = ["LDM";"STM"]
-        Suffixes = [""; "IA"; "IB"; "DA"; "DB"]
+        Roots = 
+            [
+                        "STM";  "LDM";
+            ]
+                                        //first column equivalent to second column for STM
+                                        //first column equivalent to second column flipped for LDM
+        Suffixes = 
+            [
+                "IA";   "EA";   ""; 
+                "IB";   "FA"; 
+                "DA";   "ED"; 
+                "DB";   "FD";
+            ]
     }
 
     /// map of all possible opcodes recognised
     let opCodes = opCodeExpand memSpec
 
-    let execute (dPath:DataPath) x y = 
-        1
+
+
+    type WAddrType = | One | Four
+
+    //used for indrementing or decrementing memory location
+    type Addition = {Before:int; After:int}
+
+    let execute (machState:DataPath) (memoryState: MachineMemory<InstrClass>) (parseInstr: Parse<Instr>) = 
+        let wAddrType=Four
+        let addrMultiplier=if wAddrType=One then 1u else 4u
+        let minLoc=0x10000u
+        let maxLoc=0xFFFFFFFCu
+
+        let instr = parseInstr.PInstr
+        let ptr,updatePointer = instr.StackPointer
+        let initialAddr = Map.find ptr machState.Regs
+        match initialAddr with 
+        | initAddr when initAddr%(addrMultiplier)<>0u -> 
+            Error (sprintf "Base register must be divisible by %i for a valid address." addrMultiplier)
+        | initAddr when initAddr<minLoc -> 
+            Error (sprintf "Base register must be bigger than 0x%x, this space is reserved as Instruction Memory." (minLoc-1u))
+        | stAddr when stAddr>maxLoc -> 
+            //useless at the moment, 
+            //since addrMultiplier=4 and 
+            //maxBaseReg=0xFFFFFFFCu
+            Error (sprintf "Base register is too big, biggest address available is 0x%x." maxLoc)
+        | _ -> 
+
+            let deltaToFinal, addition = 
+                let afterAdvantage = if updatePointer then 0 else 1
+                match instr.Root, instr.Mode with 
+                |_,"IB" |"STM","FA" |"LDM","ED" -> 
+                    //IB
+                    int64 addrMultiplier*int64 (List.length instr.OpRegs),
+                    {Before=1*int addrMultiplier; After=0}
+                |_,"DA" |"STM","ED" |"LDM","FA" -> 
+                    //DA
+                    int64 addrMultiplier*int64 (afterAdvantage-(List.length instr.OpRegs)),
+                    {Before=0; After=(-1)*int addrMultiplier}
+                |_,"DB" |"STM","FD" |"LDM","EA" -> 
+                    //DB
+                    int64 addrMultiplier*int64 (-(List.length instr.OpRegs)),
+                    {Before=(-1)*int addrMultiplier; After=0}
+                |_,"IA" |"STM","EA" |"LDM","FD" |_,""   |_  -> 
+                    //IA
+                    int64 addrMultiplier*int64 ((List.length instr.OpRegs)-afterAdvantage),
+                    {Before=0; After=1*int addrMultiplier}
+            
+            match deltaToFinal with 
+            | delta when delta<int64 minLoc-int64 initialAddr -> 
+                Error (sprintf "Stack takes up space below smallest available address 0x%x." minLoc)
+            | delta when delta>int64 maxLoc-int64 initialAddr -> 
+                Error (sprintf "Stack takes up space above biggest available address 0x%x." maxLoc)
+            | _ -> 
+                let readWrite (theThing: Result<Map<RName,uint32>*MachineMemory<InstrClass>*uint32,String>) reg = 
+                    match theThing with 
+                    |Error err -> Error err
+                    | Ok (regStates,memState,addr) -> 
+                        match instr.Root with 
+                        | "STM" -> Ok (regStates, Map.add (WA addr) (DataLoc (Map.find reg machState.Regs)) memState, addr)
+                        | "LDM" -> 
+                                    match Map.tryFind (WA addr) memState with 
+                                    | Some value -> 
+                                        match value with 
+                                        | DataLoc x -> Ok (Map.add reg x regStates, memState, addr)
+                                        | Code _ -> Error (sprintf "Memory location 0x%x contains an instruction value." addr)
+                                    | None -> Ok (Map.add reg 0u regStates, memState, addr)
+                        | _ -> Error "Instruction not recognised."
+                let newState (theThing) reg: Result<Map<RName,uint32>*MachineMemory<InstrClass>*uint32,String> = 
+                    match theThing with 
+                    |Error err -> Error err
+                    | Ok (regStates,memState,addr) -> 
+                        let calculation = readWrite (Ok (regStates,memState,addr+uint32 addition.Before)) reg
+                        match calculation with 
+                        | Error err -> Error err
+                        | Ok (nRegStates,nMemState,nAddr) -> Ok (nRegStates, nMemState, nAddr+uint32 addition.After)
+                let result = List.fold newState (Ok (machState.Regs,memoryState,initialAddr)) instr.OpRegs
+                match result with 
+                | Error err -> Error err
+                | Ok (newRegStates,newMemState,newAddr) ->
+                    if updatePointer 
+                    then Ok ((Map.add ptr newAddr newRegStates), newMemState) 
+                    else Ok (newRegStates, newMemState)
 
     /// main function to parse a line of assembler
     /// ls contains the line input
     /// and other state needed to generate output
     /// the result is None if the opcode does not match
     /// otherwise it is Ok Parse or Error (parse error string)
-    let parse (ls: LineData) : Result<Parse<Instr>,string> option =
+    let parse (ls: LineData) : Result<Parse<Instr>,ErrInstr> option =
+        //printfn "%A" ls |> ignore
+
         // this does the real work of parsing
         let opCodeValid (instrC, (root,suffix,pCond)) = 
             instrC |> ignore

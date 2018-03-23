@@ -1,4 +1,4 @@
-module Tests
+module ParseTests
 
 open EEExtensions
 open CommonDataAndLex
@@ -7,8 +7,8 @@ open MemoryStack
 open Expecto
 open FsCheck
 
+
 let checkInstr error placeholder1 tester placeholder2 = 
-    //testCase str <| fun () ->
     let result = 
         ([ placeholder1; tester; placeholder2] 
         |> List.toSeq 
@@ -62,10 +62,10 @@ let exhaustiveTest exhaustErrStr instrErr placeholder1 placeholder2 exhaustiveLi
 
 
 [<Tests>]
-let helloWorldTest =
-  test "A simple test" {
+let parseHelloWorld =
+  test "A simple parse test" {
     let subject = "Hello World"
-    Expect.equal subject "Hello World" "The strings should equal"
+    Expect.equal subject "Hello World" "Just give up."
   }
 
 [<Tests>]
@@ -92,7 +92,7 @@ let ValidOpCodesExhaustive =
 [<Tests>]
 let noCommaInOperandsProperty = 
     propertyTest 
-        "Operands list without a comma should not be valid." 
+        "Operands list without a comma should be invalid." 
         "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789{}-"
         (ErrWithArg (sprintf "No comma in operands string %A." )) 
         "LDM " 
@@ -101,7 +101,7 @@ let noCommaInOperandsProperty =
 [<Tests>]
 let invalidStackPtrProperty = 
     propertyTest 
-        "Invalid opCodes should not be accepted." 
+        "Invalid opCodes should be rejected." 
         "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789{}-"
         (ErrWithArg (sprintf "Invalid base register %A.")) 
         "LDM " 
@@ -121,7 +121,7 @@ let ValidStackPtrExhaustive =
 [<Tests>]
 let invalidRegListProperty = 
     propertyTest 
-        "Invalid register lists should not be accepted." 
+        "Invalid register lists should be rejected." 
         "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789-"
         (ErrWithArg (sprintf "Invalid register list %A, not surrounded by curly brackets.")) 
         "LDM R0, " 
@@ -129,7 +129,8 @@ let invalidRegListProperty =
 
 [<Tests>]
 let emptyRegListUnit = 
-    testList "Empty register lists should not be accepted." [
+    testList "Empty register lists should be rejected." <| 
+    [
         unitTest 
             "without empty range" 
             (CommonTop.ERRIMEM "Empty register list.") 
@@ -147,7 +148,7 @@ let emptyRegListUnit =
 [<Tests>]
 let invalidRegListOpProperty = 
     propertyTest 
-        "Invalid register list operands should not be accepted." 
+        "Invalid register list operands should be rejected." 
         "ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789{}"
         (ErrWithArg (sprintf "Invalid operand %A in register list.")) 
         "LDM R0, {" 
@@ -155,63 +156,43 @@ let invalidRegListOpProperty =
 
 [<Tests>]
 let invalidRegRangeUnit = 
-    testList "Invalid ranges should not be accepted." [
+    let testIt tester errStr = 
         unitTest 
-            "R0-R0-R0" 
-            (CommonTop.ERRIMEM "Invalid range \"R0-R0-R0\" in register list.")
+            tester 
+            (CommonTop.ERRIMEM (sprintf "Invalid range %A in register list." errStr))
             "LDM R0, {" 
-            "R0-R0-R0" 
-            "}";
-        unitTest 
-            "R15-R14-R13" 
-            (CommonTop.ERRIMEM "Invalid range \"R15-R14-R13\" in register list.")
-            "LDM R0, {" 
-            "R15-R14-R13" 
-            "}";
-        unitTest 
-            "R1-R0-" 
-            (CommonTop.ERRIMEM "Invalid range \"R1-R0-\" in register list.")
-            "LDM R0, {" 
-            "R1-R0-" 
-            "}";
-        unitTest 
-            "-R1-R0" 
-            (CommonTop.ERRIMEM "Invalid range \"-R1-R0\" in register list.")
-            "LDM R0, {" 
-            "-R1-R0" 
-            "}";
-        unitTest 
-            "R0--R1" 
-            (CommonTop.ERRIMEM "Invalid range \"R0--R1\" in register list.")
-            "LDM R0, {" 
-            "R0--R1" 
-            "}";
-        unitTest 
-            "asdf-1 2 3 4-, R0" 
-            (CommonTop.ERRIMEM "Invalid range \"asdf-1234-\" in register list.")
-            "LDM R0, {" 
-            "asdf-1 2 3 4-, R0" 
-            "}";
-        unitTest 
-            "R0 ---R12-, - -3" 
-            (CommonTop.ERRIMEM "Invalid range \"--3\" in register list.")
-            "LDM R0, {" 
-            "R0 ---R12-, - -3" 
-            "}";
+            tester 
+            "}"
+    
+    testList "Invalid ranges should be rejected." <| 
+    [
+        testIt "R0-R0-R0" "R0-R0-R0"            ; 
+        testIt "R15-R14-R13" "R15-R14-R13"      ; 
+        testIt "R1-R0-" "R1-R0-"                ; 
+        testIt "-R1-R0" "-R1-R0"                ; 
+        testIt "R0--R1" "R0--R1"                ; 
+        testIt "asdf-1 2 3 4-, R0" "asdf-1234-" ; 
+        testIt "R0 ---R12-, - -3" "--3"         ;
     ]
 
 
 
 
 
-let exampleTestList =
-    testList "A test group" [
-        ValidStackPtrExhaustive
+let parseTestList =
+    testList "Parse test group" <| 
+    [
+        parseHelloWorld             ;
+        invalidOpCodesProperty      ;
+        ValidOpCodesExhaustive      ;
+        noCommaInOperandsProperty   ;
+        invalidStackPtrProperty     ;
+        ValidStackPtrExhaustive     ;
+        invalidRegListProperty      ;
+        emptyRegListUnit            ;
+        invalidRegListOpProperty    ;
+        invalidRegRangeUnit         ;
     ]
 
-let tests() =
-    runTests defaultConfig exampleTestList |> ignore
-
-//Q32
-let allTests() =
-    runTestsInAssembly defaultConfig [||] |> ignore
+let runParseTests() =
+    runTests defaultConfig parseTestList |> ignore

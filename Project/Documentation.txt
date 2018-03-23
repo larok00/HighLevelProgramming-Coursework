@@ -4,4 +4,8 @@
 
 *VisUAL seems to emulate the restricted subset of functionality called Thumb State, my program emulates the unrestricted ARM State. (http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0040d/CACCIDAH.html)
 
-*In VisUAL, register names are not case sensitive, in my emulation they are. In my emulation all characters are assumed to be uppercase.
+*VisUAL does not accept empty register lists. Neither does my program.
+
+* Went with same memory map as VisUAL.
+
+*VisUAL dynamically allocates memory space for instructions, I do not.

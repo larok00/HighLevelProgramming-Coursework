@@ -2,4 +2,5 @@
 		ADR		R6, 100
 		ADR		R7, 10
 		ADR		R8, 1
-		STMIA	R5, {R8-R6}
+		STMIA	R5, {R6,R6}
+		LDMIA	R5, {R7,R8}
